@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import autodb
 
 
 app_name = 'cpanel'
@@ -50,7 +51,7 @@ urlpatterns = [
     path('pharmacy_list/', views.Pharmacy_list, name='pharmacy_list'),
     # Physician Clinic Working Time URLs
     path('physician_clinic_working_time_add/', views.Physician_Clinic_Working_Time_add, name='physician_clinic_working_time_add'),
-    path('physician_clinic_working_time_edit/<id>/', views.Physician_Clinic_Working_Time_edit, name='physician_clinic_working_time_edit'),
+    path('physician_clinic_working_time_edit/', views.Physician_Clinic_Working_Time_edit, name='physician_clinic_working_time_edit'),
     path('physician_clinic_working_time_list/', views.Physician_Clinic_Working_Time_list, name='physician_clinic_working_time_list'),
     # Hospital URLs
     path('hospital_add/', views.Hospital_add, name='hospital_add'),
@@ -58,7 +59,7 @@ urlpatterns = [
     path('hospital_list/', views.Hospital_list, name='hospital_list'),
     # Physician Hospital Working Time URLs
     path('physician_hospital_working_time_add/', views.Physician_Hospital_Working_Time_add, name='physician_hospital_working_time_add'),
-    path('physician_hospital_working_time_edit/<id>/', views.Physician_Hospital_Working_Time_edit, name='physician_hospital_working_time_edit'),
+    path('physician_hospital_working_time_edit/', views.Physician_Hospital_Working_Time_edit, name='physician_hospital_working_time_edit'),
     path('physician_hospital_working_time_list/', views.Physician_Hospital_Working_Time_list, name='physician_hospital_working_time_list'),
 
     # Insurance Company URLS
@@ -74,7 +75,10 @@ urlpatterns = [
     path('lab_edit/<id>/', views.Lab_edit, name='lab_edit'),
     path('lab_list/', views.Lab_list, name='lab_list'),
     # Medical Institution URLs
-    path('medical_institution_add/', views.Medical_Institution_add, name='lab_add'),
-    path('medical_institution_edit/<id>/', views.Medical_Institution_edit, name='lab_edit'),
-    path('medical_institution_list/', views.Medical_Institution_list, name='lab_list'),
+    path('medical_institution_add/', views.Medical_Institution_add, name='medical_institution_add'),
+    path('medical_institution_edit/<id>/', views.Medical_Institution_edit, name='medical_institution_edit'),
+    path('medical_institution_list/', views.Medical_Institution_list, name='medical_institution_list'),
+    # Data Entery Automation
+    path('add_groups/', autodb.group_add),
+    path('add_specialization/', autodb.specialization_add)
 ]

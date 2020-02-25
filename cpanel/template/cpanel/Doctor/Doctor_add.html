@@ -34,39 +34,13 @@
                 <header>
                     Basic Information
                 </header>
-                <button class="mdl-button mdl-js-button mdl-button--icon pull-right" data-upgraded=",MaterialButton" id="panel-button">
-                    <i class="material-icons">
-                        more_vert
-                    </i>
-                </button>
-                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="panel-button">
-                    <li class="mdl-menu__item">
-                        <i class="material-icons">
-                            assistant_photo
-                        </i>
-                        Action
-                    </li>
-                    <li class="mdl-menu__item">
-                        <i class="material-icons">
-                            print
-                        </i>
-                        Another action
-                    </li>
-                    <li class="mdl-menu__item">
-                        <i class="material-icons">
-                            favorite
-                        </i>
-                        Something else
-                        here
-                    </li>
-                </ul>
             </div>
             <form method='POST' enctype="multipart/form-data" id="add_form"> {% csrf_token %}
                 <div class="card-body row">
                     <!-- Your Field Goes Here... -->
                     <div class="col-lg-12 p-t-20">
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" type="text" name="national_number" />
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width" data-required>
+                            <input class="mdl-textfield__input" type="text" name="national_number" required />
                             <label class="mdl-textfield__label">
                                 National Number
                             </label>
@@ -74,7 +48,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" type="text" name="stakeholder_name" />
+                            <input class="mdl-textfield__input" type="text" name="stakeholder_name" required />
                             <label class="mdl-textfield__label">
                                 First Name
                             </label>
@@ -82,7 +56,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" type="text" name="stakeholder_last_name" />
+                            <input class="mdl-textfield__input" type="text" name="stakeholder_last_name" required />
                             <label class="mdl-textfield__label">
                                 Last Name
                             </label>
@@ -90,7 +64,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width" id="password_main_div">
-                            <input class="mdl-textfield__input" id="txtPwd" type="password" name="password" />
+                            <input class="mdl-textfield__input" id="txtPwd" type="password" name="password" required />
                             <label class="mdl-textfield__label" id="password_main">
                                 Password
                             </label>
@@ -98,7 +72,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width" id="password_confirm_div">
-                            <input class="mdl-textfield__input" id="txtConfirmPwd" type="password" name="password" />
+                            <input class="mdl-textfield__input" id="txtConfirmPwd" type="password" name="password" required />
                             <label class="mdl-textfield__label" id="password_Confirm">
                                 Confirm Password
                             </label>
@@ -106,7 +80,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width" id="date_add">
-                            <input class="mdl-textfield__input" type="text" name="birthday" autocomplete="off" id="dp1" onfocusout="date_val()" />
+                            <input class="mdl-textfield__input" type="text" name="birthday" autocomplete="off" id="dp1" onfocusout="date_val()" required />
                             <label class="mdl-textfield__label">
                                 Birthday
                             </label>
@@ -114,7 +88,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height txt-full-width">
-                            <input class="mdl-textfield__input" id="gender" readonly="" tabindex="-1" type="text" value="" name="gender" required maxlength="20" step="0.01" />
+                            <input class="mdl-textfield__input" id="gender" readonly="" tabindex="-1" type="text" name="gender" maxlength="20" step="0.01" required />
                             <label class="pull-right margin-0" for="gender">
                                 <i class="mdl-icon-toggle__label material-icons">
                                     keyboard_arrow_down
@@ -187,9 +161,9 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-lg-12 p-t-20" id="Phone">
+                    <div class="col-lg-12 p-t-20" id="phone">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" id="text5" pattern="-?[0-9]*(\.[0-9]+)?" type="text" name="Phone" autocomplete="off" />
+                            <input class="mdl-textfield__input" id="text5" pattern="-?[0-9]*(\.[0-9]+)?" type="text" name="phone" autocomplete="nope" required />
                             <label class="mdl-textfield__label" for="text5">
                                 Mobile Number
                             </label>
@@ -206,7 +180,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20" id="Address">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" id="text_address" pattern="*" type="text" name="address" autocomplete="off" />
+                            <input class="mdl-textfield__input" id="text_address" type="text" name="address" required autocomplete="nope" />
                             <label class="mdl-textfield__label" for="text_address">
                                 Address
                             </label>
@@ -224,46 +198,9 @@
                     <div class="col-lg-12 p-t-20">
                         <label style="color: #999999">Specialization</label>
                         <select class="form-control" multiple="multiple" id="my-select" style="height:150px" name="specialization">
-                            <option>Dermatology (Skin)</option>
-                            <option>Dentistry (Teeth)</option>
-                            <option>Psychiatry (Mental, Emotional or Behavioral Disorders)</option>
-                            <option>Pediatrics and New Born (Child)</option>
-                            <option>Neurology (Brain &amp; Nerves)</option>
-                            <option>Orthopedics (Bones)</option>
-                            <option>Gynaecology and Infertility</option>
-                            <option>Ear, Nose and Throat</option>
-                            <option>Cardiology and Vascular Disease (Heart)</option>
-                            <option>Allergy and Immunology (Sensitivity and Immunity)</option>
-                            <option>Andrology and Male Infertility </option>
-                            <option>Audiology", "Cardiology and Thoracic Surgery (Heart &amp; Chest) </option>
-                            <option>Chest and Respiratory </option>
-                            <option>Diabetes and Endocrinology </option>
-                            <option>Diagnostic Radiology (Scan Centers) </option>
-                            <option>Family Medicine</option>
-                            <option>Gastroenterology and Endoscopy</option>
-                            <option>General Practice</option>
-                            <option>General Surgery</option>
-                            <option>Geriatrics (Old People Health)</option>
-                            <option>Hematology", "Hepatology (Liver Doctor)</option>
-                            <option>Internal Medicin</option>
-                            <option>IVF and Infertility</option>
-                            <option>Laboratories</option>
-                            <option>Nephrology</option>
-                            <option>Neurosurgery (Brain &amp; Nerves Surgery)</option>
-                            <option>Obesity and Laparoscopic Surgery</option>
-                            <option>Oncology (Tumor)</option>
-                            <option>Oncology Surgery (Tumor Surgery)</option>
-                            <option>Ophthalmology (Eyes)</option>
-                            <option>Osteopathy (Osteopathic Medicine)</option>
-                            <option>Pain Management</option>
-                            <option>Pediatric Surgery</option>
-                            <option>Phoniatrics (Speech)</option>
-                            <option>Physiotherapy and Sport Injuries</option>
-                            <option>Plastic Surgery</option>
-                            <option>Rheumatology</option>
-                            <option>Spinal Surgery</option>
-                            <option>Urology (Urinary System)</option>
-                            <option>Vascular Surgery (Arteries and Vein Surgery)</option>
+                            {% for specialization in specializations%}
+                            <option>{{specialization}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="col-lg-12 p-t-20">

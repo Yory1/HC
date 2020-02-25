@@ -1,5 +1,6 @@
 from django.db import models
 from main.utils import get_object_or_none
+from django.contrib.auth.models import User
 
 # Enumeration Values
 Gender = [('Male', 'Male'), ('Female', 'Female')]
@@ -24,18 +25,18 @@ class Stakeholders(models.Model):
     national_number = models.CharField(max_length=20, db_column='National_Number', primary_key=True)
     stakeholder_name = models.CharField(db_column='Stakeholder_Name', max_length=255, blank=True, null=True)
     stakeholder_last_name = models.CharField(db_column='Stakeholder_Last_Name', max_length=255, blank=True, null=True)
-    password = models.CharField(db_column='Password', max_length=50, blank=True, null=True)
     birthday = models.DateField(db_column='Birthday', blank=True, null=True)
     gender = models.CharField(db_column='Gender', max_length=6, blank=True, null=True, choices=Gender)
     stakeholder_type = models.CharField(db_column='Stakeholder_Type', max_length=10, blank=True, null=True, choices=Stakeholder_Type)
     email = models.CharField(db_column='Email', max_length=320, blank=True, null=True)
     marital_status = models.CharField(db_column='Marital_Status', max_length=8, blank=True, null=True, choices=Marital_Status)
-    image = models.ImageField(default=None, upload_to='Stakeholder/images', db_column='Image', blank=True, null=True)  # new
+    image = models.ImageField(default='avatar.jpg', upload_to='Stakeholder/images', db_column='Image', blank=True, null=True)
     nationality = models.CharField(db_column='Nationality', max_length=255, blank=True, null=True)
     cv = models.CharField(db_column='cv', max_length=500, blank=True, null=True)  # new
     created_at = models.DateTimeField(auto_now_add=True)  # new
     updated_at = models.DateTimeField(auto_now=True)  # new
     hide = models.BooleanField(default=False)
+    user = models.OneToOneField(User, models.DO_NOTHING, db_column="user")
 
     class Meta:
         db_table = 'stakeholders'
@@ -167,9 +168,8 @@ class Nurse(models.Model):
 
     @property
     def get_Specialization(self):
-        x = Nurse.objects.get(pk=self.nurse_nn)
-        x._state.db
-        return NurseSpecialization.objects.filter(nurse_nn=x)
+        nurse = get_object_or_none(Nurse, nurse_nn=self.nurse_nn)
+        return NurseSpecialization.objects.filter(nurse_nn=nurse)
 
     @property
     def get_phone(self):
@@ -178,20 +178,6 @@ class Nurse(models.Model):
     @property
     def get_address(self):
         return StakeholdersAddress.objects.filter(national_number=self.nurse_nn)
-
-
-class NurseSpecialization(models.Model):
-    nurse_nn = models.ForeignKey(Nurse, models.DO_NOTHING, db_column='Nurse_NN')
-    specialization = models.CharField(db_column='Specialization', max_length=120)
-
-    class Meta:
-        db_table = 'nurse_specialization'
-        unique_together = (('nurse_nn', 'specialization'),)
-        verbose_name = 'Nurse Specialization'
-        verbose_name_plural = 'Nurse Specializations'
-
-    def __str__(self):
-        return str(self.nurse_nn)
 
 
 class Paramedic(models.Model):
@@ -205,7 +191,7 @@ class Paramedic(models.Model):
         verbose_name_plural = 'Paramedics'
 
     def __str__(self):
-        return self.paramedic_nn
+        return str(self.paramedic_nn)
 
     @property
     def get_phone(self):
@@ -226,13 +212,12 @@ class Specialist(models.Model):
         verbose_name_plural = 'Specialists'
 
     def __str__(self):
-        return self.specialist_nn
+        return str(self.specialist_nn)
 
     @property
     def get_Specialization(self):
-        x = Specialist.objects.get(pk=self.specialist_nn)
-        x._state.db
-        return SpecialistSpecialization.objects.filter(specialist_nn=x)
+        specialist = get_object_or_none(Specialist, specialist_nn=self.specialist_nn)
+        return SpecialistSpecialization.objects.filter(specialist_nn=specialist)
 
     @property
     def get_phone(self):
@@ -254,7 +239,10 @@ class SpecialistSpecialization(models.Model):
         verbose_name_plural = 'Specialist Specializations'
 
     def __str__(self):
-        return self.specialist_nn
+        return str(self.specialist_nn)
+
+    def get_value(self):
+        return str(self.specialization)
 
 
 class Pharmacist(models.Model):
@@ -277,9 +265,8 @@ class Pharmacist(models.Model):
 
     @property
     def get_Specialization(self):
-        x = Pharmacist.objects.get(pk=self.pharmacist_nn)
-        x._state.db
-        return PharmacistSpecialization.objects.filter(pharmacist_nn=x)
+        pharmacist = get_object_or_none(Pharmacist, pharmacist_nn=self.pharmacist_nn)
+        return PharmacistSpecialization.objects.filter(pharmacist_nn=pharmacist)
 
 
 class PharmacistSpecialization(models.Model):
@@ -293,18 +280,24 @@ class PharmacistSpecialization(models.Model):
         verbose_name_plural = 'Pharmacist Specializations'
 
     def __str__(self):
-        return self.pharmacist_nn
+        return str(self.pharmacist_nn)
+
+    def get_value(self):
+        return self.specialization
 
 
 # -- ** Medical Institutions And Related Tables ** --
 
 class MedicalInstitutions(models.Model):
     institution_id = models.IntegerField(db_column='ID', primary_key=True)
-    image = models.ImageField(upload_to='Medical_Institutions/images', db_column='Image', blank=True, null=True)
+    image = models.ImageField(default='image.png', upload_to='Medical_Institutions/images', db_column='Image', blank=True, null=True)
     institution_name = models.CharField(db_column='Institution_Name', max_length=120, blank=True, null=True)
     hide = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)  # new
     updated_at = models.DateTimeField(auto_now=True)  # new
+    user = models.OneToOneField(User, models.DO_NOTHING, db_column="user")
+    about = models.TextField(db_column='About', blank=True, null=True)
+    standard_fee = models.TextField(db_column='Standard_Fee', blank=True, null=True)
 
     class Meta:
         db_table = 'medical_institutions'
@@ -335,10 +328,6 @@ class MedicalInstitutionsPhone(models.Model):
 
     def __str__(self):
         return str(self.institution)
-    @property
-    def get_phone(self):
-        return self.objects.filter(institution=self.institution_id)
-
 
 
 class MedicalInstitutionsAddress(models.Model):
@@ -353,9 +342,6 @@ class MedicalInstitutionsAddress(models.Model):
 
     def __str__(self):
         return str(self.institution)
-    @property
-    def get_address(self):
-        return self.objects.filter(institution=self.institution_id)
 
 
 class Labs(models.Model):
@@ -381,10 +367,8 @@ class Labs(models.Model):
         return MedicalInstitutionsAddress.objects.filter(institution=self.lab)
 
     @property
-    def get_A_R(self):
-        x = Labs.objects.get(pk=self.lab)
-        x._state.db
-        return LabsAnalysisAndRadiology.objects.filter(lab=x)
+    def get_analysis_radiology(self):
+        return LabsAnalysisAndRadiology.objects.filter(lab=self)
 
 
 class LabsAnalysisAndRadiology(models.Model):
@@ -485,6 +469,7 @@ class InsuranceCompanies(models.Model):
     hide = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)  # new
     updated_at = models.DateTimeField(auto_now=True)  # new
+    user = models.OneToOneField(User, models.DO_NOTHING, db_column="user")
 
     class Meta:
         db_table = 'insurance_companies'
@@ -553,14 +538,14 @@ class Specialization(models.Model):
     specialization_id = models.IntegerField(db_column='ID', primary_key=True)
     name = models.CharField(db_column='Name', max_length=255, blank=True, null=True)
     hide = models.BooleanField(default=False)
-
+    
     class Meta:
         db_table = 'specialization'
         verbose_name = 'Specialization'
         verbose_name_plural = 'Specializations'
 
     def __str__(self):
-        return str(self.specialization_id)
+        return str(self.name)
 
 
 # -- ** Associated Tables ** --
@@ -640,34 +625,43 @@ class PhysicianClinicWorkingTime(models.Model):
 
     def __str__(self):
         return str(self.physician_nn)
+        
+    def get_Specialization(self):
+        physician = get_object_or_none(Physician, physician_nn=self.physician_nn)
+        return PhysicianSpecialization.objects.filter(physician_nn=physician)
 
 
 # -- ** Many-To-Many Relation Tables ** --
 
 # -- ## Rating Relation ##
 class PhysicianRating(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
     patient_nn = models.ForeignKey(Patient, models.DO_NOTHING, db_column='Patient_NN')
     physician_nn = models.ForeignKey(Physician, models.DO_NOTHING, db_column='Physician_NN')
     patient_comment = models.TextField(db_column='Patient_comment', blank=True, null=True)
-
+    rate = models.IntegerField(db_column='rate', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)  # new
+    updated_at = models.DateTimeField(auto_now=True)  # new
     class Meta:
         db_table = 'physician_rating'
-        unique_together = (('patient_nn', 'physician_nn'),)
         verbose_name = 'Physician Rating'
         verbose_name_plural = 'Physician Ratings'
 
     def __str__(self):
-        return self.physician_nn
+        return str(self.physician_nn)
+
 
 
 class LabRating(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
     patient_nn = models.ForeignKey(Patient, models.DO_NOTHING, db_column='Patient_NN')
     lab = models.ForeignKey(Labs, models.DO_NOTHING, db_column='Lab_ID')
     patient_comment = models.TextField(db_column='Patient_comment', blank=True, null=True)
-
+    rate = models.IntegerField(db_column='rate', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)  # new
+    updated_at = models.DateTimeField(auto_now=True)  # new
     class Meta:
         db_table = 'lab_rating'
-        unique_together = (('patient_nn', 'lab'),)
         verbose_name = 'Lab Rating'
         verbose_name_plural = 'Lab Ratings'
 
@@ -676,13 +670,15 @@ class LabRating(models.Model):
 
 
 class ClinicRating(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
     patient_nn = models.ForeignKey(Patient, models.DO_NOTHING, db_column='Patient_NN')
     clinic = models.ForeignKey(Clinic, models.DO_NOTHING, db_column='Clinic_ID')
     patient_comment = models.TextField(db_column='Patient_comment', blank=True, null=True)
-
+    rate = models.IntegerField(db_column='rate', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)  # new
+    updated_at = models.DateTimeField(auto_now=True)  # new
     class Meta:
         db_table = 'clinic_rating'
-        unique_together = (('patient_nn', 'clinic'),)
         verbose_name = 'Clinic Rating'
         verbose_name_plural = 'Clinic Ratings'
 
@@ -691,13 +687,15 @@ class ClinicRating(models.Model):
 
 
 class HospitalRating(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
     patient_nn = models.ForeignKey(Patient, models.DO_NOTHING, db_column='Patient_NN')
     hospital = models.ForeignKey(Hospital, models.DO_NOTHING, db_column='Hospital_ID')
     patient_comment = models.TextField(db_column='Patient_comment', blank=True, null=True)
-
+    rate = models.IntegerField(db_column='rate', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)  # new
+    updated_at = models.DateTimeField(auto_now=True)  # new
     class Meta:
         db_table = 'hospital_rating'
-        unique_together = (('patient_nn', 'hospital'),)
         verbose_name = 'Hospital Rating'
         verbose_name_plural = 'Hospital Ratings'
 
@@ -708,6 +706,7 @@ class HospitalRating(models.Model):
 # -- ## Working Relation ##
 # -- Nurses
 class HospitalNurses(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
     hospital = models.ForeignKey(Hospital, models.DO_NOTHING, db_column='Hospital_ID')
     nurse_nn = models.ForeignKey(Nurse, models.DO_NOTHING, db_column='Nurse_NN')
 
@@ -736,6 +735,7 @@ class ClinicNurses(models.Model):
 
 
 class LabNurses(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)
     lab = models.ForeignKey(Labs, models.DO_NOTHING, db_column='Lab_ID')
     nurse_nn = models.ForeignKey(Nurse, models.DO_NOTHING, db_column='Nurse_NN')
 
@@ -751,6 +751,7 @@ class LabNurses(models.Model):
 
 # -- Specialists
 class LabSpecialists(models.Model):
+
     lab = models.ForeignKey(Labs, models.DO_NOTHING, db_column='Lab_ID')
     specialist_nn = models.ForeignKey(Specialist, models.DO_NOTHING, db_column='Specialist_NN')
 
@@ -827,6 +828,23 @@ class PhysicianSpecialization(models.Model):
         return self.specialization.name
 
 
+class NurseSpecialization(models.Model):
+    nurse_nn = models.ForeignKey(Nurse, models.DO_NOTHING, db_column='Nurse_NN')
+    specialization = models.ForeignKey(Specialization, models.DO_NOTHING, db_column='Specialization_ID')
+
+    class Meta:
+        db_table = 'nurse_specialization'
+        unique_together = (('nurse_nn', 'specialization'),)
+        verbose_name = 'Nurse Specialization'
+        verbose_name_plural = 'Nurse Specializations'
+
+    def __str__(self):
+        return str(self.nurse_nn)
+
+    def get_value(self):
+        return self.specialization.name
+
+
 class HospitalSpecialization(models.Model):
     hospital = models.ForeignKey(Hospital, models.DO_NOTHING, db_column='Hospital_ID')
     specialization = models.ForeignKey(Specialization, models.DO_NOTHING, db_column='Specialization_ID')
@@ -852,7 +870,7 @@ class ClinicSpecialization(models.Model):
         verbose_name_plural = 'Clinic Specializations'
 
     def __str__(self):
-        return self.clinic
+        return str(self.clinic)
 
 
 # -- ## Insurance Deals Relations ##

@@ -34,32 +34,6 @@
                 <header>
                     Basic Information
                 </header>
-                <button class="mdl-button mdl-js-button mdl-button--icon pull-right" data-upgraded=",MaterialButton" id="panel-button">
-                    <i class="material-icons">
-                        more_vert
-                    </i>
-                </button>
-                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" data-mdl-for="panel-button">
-                    <li class="mdl-menu__item">
-                        <i class="material-icons">
-                            assistant_photo
-                        </i>
-                        Action
-                    </li>
-                    <li class="mdl-menu__item">
-                        <i class="material-icons">
-                            print
-                        </i>
-                        Another action
-                    </li>
-                    <li class="mdl-menu__item">
-                        <i class="material-icons">
-                            favorite
-                        </i>
-                        Something else
-                        here
-                    </li>
-                </ul>
             </div>
             <form method='POST' enctype="multipart/form-data" id="add_form"> {% csrf_token %}
                 <div class="card-body row">
@@ -74,7 +48,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" type="text" maxlength="255" name="stakeholder_name" />
+                            <input class="mdl-textfield__input" type="text" maxlength="255" required name="stakeholder_name" />
                             <label class="mdl-textfield__label">
                                 First Name
                             </label>
@@ -135,7 +109,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" id="txtemail" required maxlength="320" type="email" name="email" />
+                            <input class="mdl-textfield__input" id="txtemail" maxlength="320" type="email" name="email" />
                             <label class="mdl-textfield__label">
                                 Email
                             </label>
@@ -173,7 +147,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" required maxlength="100" type="text" name="nationality" />
+                            <input class="mdl-textfield__input" maxlength="100" type="text" name="nationality" />
                             <label class="mdl-textfield__label">
                                 Nationality
                             </label>
@@ -181,7 +155,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" type="text" required maxlength="100" name="chronic_diseases_name" />
+                            <input class="mdl-textfield__input" type="text" maxlength="100" name="chronic_diseases_name" />
                             <label class="mdl-textfield__label">
                                 Chronic diseases name
                             </label>
@@ -189,13 +163,12 @@
                     </div>
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield  mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" type="text" required maxlength="100" name="chronic_diseases_type" />
+                            <input class="mdl-textfield__input" type="text" maxlength="100" name="chronic_diseases_type" />
                             <label class="mdl-textfield__label">
                                 Chronic diseases type
                             </label>
                         </div>
                     </div>
-                    <!-----------radio blood button ------------>
                     <div class="col-lg-12 p-t-20">
                         <div>
                             <div class="card-box">
@@ -235,42 +208,42 @@
                                         <tr>
                                             <td>
                                                 <label class="mdl-radio mdl-js-radio" for="option1">
-                                                    <input checked="" class="mdl-radio__button" id="option1" type="radio" value="A+" name="blood_type" />
+                                                    <input class="mdl-radio__button" id="option1" type="radio" value="A+" name="blood_type" />
                                                 </label>
                                             </td>
                                             <td>
                                                 <label class="mdl-radio mdl-js-radio" for="option2">
-                                                    <input checked="" class="mdl-radio__button" id="option2" value="A-" name="blood_type" type="radio" />
+                                                    <input class="mdl-radio__button" id="option2" value="A-" name="blood_type" type="radio" />
                                                 </label>
                                             </td>
                                             <td>
                                                 <label class="mdl-radio mdl-js-radio" for="option3">
-                                                    <input checked="" class="mdl-radio__button" id="option3" value="O+" name="blood_type" type="radio" />
+                                                    <input class="mdl-radio__button" id="option3" value="O+" name="blood_type" type="radio" />
                                                 </label>
                                             </td>
                                             <td>
                                                 <label class="mdl-radio mdl-js-radio" for="option4">
-                                                    <input checked="" class="mdl-radio__button" id="option4" value="O-" name="blood_type" type="radio" />
+                                                    <input class="mdl-radio__button" id="option4" value="O-" name="blood_type" type="radio" />
                                                 </label>
                                             </td>
                                             <td>
                                                 <label class="mdl-radio mdl-js-radio" for="option5">
-                                                    <input checked="" class="mdl-radio__button" id="option5" value="B+" name="blood_type" type="radio" />
+                                                    <input class="mdl-radio__button" id="option5" value="B+" name="blood_type" type="radio" />
                                                 </label>
                                             </td>
                                             <td>
                                                 <label class="mdl-radio mdl-js-radio" for="option6">
-                                                    <input checked="" class="mdl-radio__button" id="option6" value="B-" name="blood_type" type="radio" />
+                                                    <input class="mdl-radio__button" id="option6" value="B-" name="blood_type" type="radio" />
                                                 </label>
                                             </td>
                                             <td>
                                                 <label class="mdl-radio mdl-js-radio" for="option7">
-                                                    <input checked="" class="mdl-radio__button" id="option7" value="AB+" name="blood_type" type="radio" />
+                                                    <input class="mdl-radio__button" id="option7" value="AB+" name="blood_type" type="radio" />
                                                 </label>
                                             </td>
                                             <td>
                                                 <label class="mdl-radio mdl-js-radio" for="option8">
-                                                    <input checked="" class="mdl-radio__button" id="option8" value="AB-" name="blood_type" type="radio" />
+                                                    <input class="mdl-radio__button" id="option8" value="AB-" name="blood_type" type="radio" />
                                                 </label>
                                             </td>
                                         </tr>
@@ -279,8 +252,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--------------('O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-')------------------>
-                    <!-------------chronic d form ---------------------->
                     <div class="col-lg-12 p-t-20">
                         <div class="mdl-textfield mdl-js-textfield txt-full-width">
                             <textarea class="mdl-textfield__input" id="text7" rows="4" name="cv"></textarea>
@@ -289,9 +260,9 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-lg-12 p-t-20" id="Phone">
+                    <div class="col-lg-12 p-t-20" id="phone">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" required maxlength="25" id="text5" pattern="-?[0-9]*(\.[0-9]+)?" type="text" name="Phone" />
+                            <input class="mdl-textfield__input" required maxlength="25" id="text5" pattern="-?[0-9]*(\.[0-9]+)?" type="text" name="phone" autocomplete="nope" />
                             <label class="mdl-textfield__label" for="text5">
                                 Mobile Number
                             </label>
@@ -306,11 +277,11 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-lg-12 p-t-20" id="relatives_Phone">
+                    <div class="col-lg-12 p-t-20" id="relatives_phone">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" maxlength="25" id="text4" pattern="-?[0-9]*(\.[0-9]+)?" type="text" name="relatives_phones" autocomplete="off" />
+                            <input class="mdl-textfield__input" maxlength="25" id="text4" pattern="-?[0-9]*(\.[0-9]+)?" type="text" name="relatives_phones" required autocomplete="nope" />
                             <label class="mdl-textfield__label" for="text5">
-                                Relatives Phone Number
+                                Relatives phone Number
                             </label>
                             <span class="mdl-textfield__error">
                                 Number required!
@@ -325,7 +296,7 @@
                     </div>
                     <div class="col-lg-12 p-t-20" id="Address">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-                            <input class="mdl-textfield__input" maxlength="320" required id="text5" pattern="*" type="text" name="address" />
+                            <input class="mdl-textfield__input" maxlength="320" required id="text5" type="text" name="address" autocomplete="nope" />
                             <label class="mdl-textfield__label" for="text5">
                                 Address
                             </label>
